@@ -1,0 +1,8 @@
+services:
+  app:  
+    container_name: spingboot-app
+    image: parag52/springboot-app
+    build: 
+        context: .
+    ports:
+      - 8280:8280
