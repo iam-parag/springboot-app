@@ -1,0 +1,86 @@
+# General
+*.class
+*.log
+*.war
+*.jar
+*.ear
+*.iml
+*.hprof
+.DS_Store
+*.swp
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+# Gradle
+build/
+.gradle/
+.gradle-cache/
+.gradle-user-home/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Logs
+logs/
+*.log
+
+# IDEs and Editors
+.idea/
+*.ipr
+*.iws
+*.bak
+*.tmp
+*.orig
+*.patch
+*.sublime-workspace
+*.sublime-project
+*.vs/
+.vscode/
+*.code-workspace
+*.classpath
+*.project
+/.settings/
+
+# OS Specific
+Thumbs.db
+ehthumbs.db
+Icon?
+.Trashes
+*.pid
+
+# Spring Boot
+application-*.yml
+application-*.yaml
+application-*.properties
+/secrets/
+.env
+
+# Database
+*.db
+*.sql
+*.sqlite
+
+# Test Output
+/test-output/
+test-results/
+surefire-reports/
+failures/
+output/
+
+# Temporary files
+*.tmp
+*.bak
+*.backup
+*.swp
+*~*
+
+# Other
+node_modules/
+dist/
+coverage/
+bin/
+
