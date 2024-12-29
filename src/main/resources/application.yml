@@ -22,3 +22,15 @@ spring:
     name: phonebook-service
   main: 
     banner-mode: "off"
+ #datasource:
+   #url: jdbc:mysql://localhost:3306/phonebook
+   #username: your-username
+   #password: your-password
+   #driver-class-name: com.mysql.cj.jdbc.Driver
+ #jpa:
+   #hibernate:
+   #ddl-auto: update
+   #show-sql: true
+   #properties:
+   #hibernate:
+   # dialect: org.hibernate.dialect.MySQL8Dialect
