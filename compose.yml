@@ -6,3 +6,9 @@ services:
         context: .
     ports:
       - 8280:8280
+    environment:
+      - DB_NAME=phonebook
+      - DB_HOST=localhost
+      - DB_PORT=3306
+      - DB_USERNAME=phonebook
+      - DB_PASSWORD=your_password
