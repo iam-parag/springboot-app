@@ -1,7 +1,7 @@
 services:
   app:  
     container_name: spingboot-app
-    image: parag52/springboot-app
+    image: springboot-app
     build: 
         context: .
     ports:
