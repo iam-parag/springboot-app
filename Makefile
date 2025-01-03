@@ -77,6 +77,10 @@ docker-app-run:
 db-migration:
 	@echo "Restoring database from backup..."
 	@docker exec -i mysql-container mysql -u phonebook -pphonebook phonebook < sql_backup.sql
+docker-compose-start:
+	@docker-compose up
+
+docker-app-start: docker-db-run db-migration docker-app-build docker-compose-start
 
 # Clean temporary files
 clean-temp:
