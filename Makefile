@@ -1,8 +1,3 @@
-# Variables
-JAVA_VERSION := openjdk-11-jdk
-MAVEN_VERSION := 3.8.8
-DOCKER_VERSION := 20.10.30
-
 .PHONY: all install-java install-maven install-docker check-prerequisites clean run build test docker-app-build docker-db-run docker-app-run db-migration
 
 # Run all installation steps
@@ -12,7 +7,7 @@ all: install-java install-maven install-docker check-prerequisites
 install-java:
 	@echo "Installing Java (OpenJDK 11)..."
 	@sudo apt-get update
-	@sudo apt-get install -y $(JAVA_VERSION)
+	@sudo apt-get install -y openjdk-11-jdk
 	@java -version
 	@echo "Java installation completed!"
 
@@ -21,21 +16,23 @@ install-maven:
 	@echo "Installing Maven $(MAVEN_VERSION)..."
 	@sudo apt-get update
 	@sudo apt-get install -y wget
-	@wget https://downloads.apache.org/maven/maven-$(subst .,/, $(MAVEN_VERSION))/binaries/apache-maven-$(MAVEN_VERSION)-bin.tar.gz
-	@sudo tar -xvzf apache-maven-$(MAVEN_VERSION)-bin.tar.gz -C /opt
-	@sudo ln -s /opt/apache-maven-$(MAVEN_VERSION)/bin/mvn /usr/bin/mvn
+	@wget https://dlcdn.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
+	@sudo tar -xvzf apache-maven-3.9.9-bin.tar.gz -C /opt
+	@sudo rm -rf /usr/bin/mvn
+	@sudo ln -s /opt/apache-maven-3.9.9/bin/mvn /usr/bin/mvn
 	@mvn -version
+	@sudo rm -rf apache-maven-3.9.9-bin.*
 	@echo "Maven installation completed!"
 
 # Install Docker (optional for containerization)
 install-docker:
 	@echo "Installing Docker..."
 	@sudo apt-get update
-	@sudo apt-get install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-	@curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-	@sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(shell lsb_release -cs) stable"
-	@sudo apt-get update
-	@sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+	@sudo apt-get install ca-certificates curl
+	@sudo install -m 0755 -d /etc/apt/keyrings
+	@sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+	@sudo chmod a+r /etc/apt/keyrings/docker.asc
+	@sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 	@docker --version
 	@echo "Docker installation completed!"
 
