@@ -1,3 +1,7 @@
+ARCH := $(shell dpkg --print-architecture)
+VERSION_CODENAME := $(shell . /etc/os-release && echo ""$$VERSION_CODENAME"")
+
+
 .PHONY: all install-java install-maven install-docker check-prerequisites clean run build test docker-app-build docker-db-run docker-app-run db-migration
 
 # Run all installation steps
@@ -32,17 +36,20 @@ install-docker:
 	@sudo install -m 0755 -d /etc/apt/keyrings
 	@sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 	@sudo chmod a+r /etc/apt/keyrings/docker.asc
-	@sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+	@echo "deb [arch=$(ARCH) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(VERSION_CODENAME) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+	@sudo apt-get update
+	@sudo apt-get install -y -f  containerd.io docker-ce docker-ce-cli  docker-buildx-plugin docker-compose-plugin
 	@docker --version
 	@echo "Docker installation completed!"
 
 # Check all prerequisites
 check-prerequisites:
 	@echo "Checking prerequisites..."
-	@if ! [ -x "$(command -v java)" ]; then echo "Error: Java is not installed." && exit 1; fi
-	@if ! [ -x "$(command -v mvn)" ]; then echo "Error: Maven is not installed." && exit 1; fi
-	@if ! [ -x "$(command -v docker)" ]; then echo "Warning: Docker is not installed." && exit 0; fi
+	@if ! command -v java >/dev/null 2>&1; then echo "Error: Java is not installed." && exit 1; fi
+	@if ! command -v mvn >/dev/null 2>&1; then echo "Error: Maven is not installed." && exit 1; fi
+	@if ! command -v docker >/dev/null 2>&1; then echo "Warning: Docker is not installed." && exit 0; fi
 	@echo "All prerequisites are installed!"
+
 
 # Maven tasks
 run:
@@ -76,11 +83,12 @@ docker-app-run:
 
 db-migration:
 	@echo "Restoring database from backup..."
+	@docker ps -q -f name=mysql-container || docker start mysql-container
 	@docker exec -i mysql-container mysql -u phonebook -pphonebook phonebook < sql_backup.sql
 docker-compose-start:
 	@docker-compose up
 
-docker-app-start: docker-db-run db-migration docker-app-build docker-compose-start
+docker-app-start: docker-db-run db-migration docker-compose-start
 
 # Clean temporary files
 clean-temp:
