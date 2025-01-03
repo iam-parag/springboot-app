@@ -18,3 +18,6 @@ docker-db-run:
 
 docker-app-run:
 	docker run -p 8280:8280 -e DB_HOST=127.0.0.1 -e DB_PORT=3306 -e DB_NAME=phonebook -e DB_USERNAME=phonebook -e DB_PASSWORD=phonebook phonebook-app:v1
+
+db-migration:
+	docker exec -i mysql-container mysql -u phonebook -pphonebook phonebook < sql_backup.sql 
