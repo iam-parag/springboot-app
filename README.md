@@ -1,5 +1,5 @@
-# hello-world-springboot
-Hello World with Spring Boot JDK 11,
+# For pre-requisites run this command
+>      make all
 # Set Environment variables for database
 >      export DB_HOST=your-db-host
 >      export DB_PORT=3306
