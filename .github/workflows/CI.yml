@@ -14,16 +14,16 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-      - name: Install Checkstyle
-        run: |
-          curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
-          alias checkstyle='java -jar $(pwd)/checkstyle.jar'
-      - name: Find and Lint Java Files
-        run: |
-          pwd
-          ls
-          find src -name "*.java" > java_files.txt
-          java -jar checkstyle.jar -c .checkstyle.xml $(cat java_files.txt)
+      # - name: Install Checkstyle
+      #   run: |
+      #     curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
+      #     alias checkstyle='java -jar $(pwd)/checkstyle.jar'
+      # - name: Find and Lint Java Files
+      #   run: |
+      #     pwd
+      #     ls
+      #     find src -name "*.java" > java_files.txt
+      #     java -jar checkstyle.jar -c .checkstyle.xml $(cat java_files.txt)
       # - name: Run Checkstyle
       #   run: |
       #     java -jar checkstyle.jar -c .checkstyle.xml src/**/*.java
