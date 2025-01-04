@@ -6,6 +6,7 @@ on:
     branches: [ CI-CD ]
 jobs:
   lint:
+    name: Run lint scanning for Java code
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -26,7 +27,9 @@ jobs:
 
       - name: Run Checkstyle
         run: |
-          java -jar checkstyle.jar -c .checkstyle.xml src/**/*.java
+          pwd 
+          ls
+          java -jar checkstyle.jar -c config/checkstyle.xml src/**/*.java
       - name: Run PMD
         run: |
           ./pmd-bin/bin/run.sh pmd -d src -R ruleset.xml -f text
