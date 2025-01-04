@@ -76,7 +76,6 @@ docker-app-build:
 docker-db-run:
 	@echo "Running MySQL Docker container..."
 	@docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=rootpassword -e MYSQL_DATABASE=phonebook -e MYSQL_USER=phonebook -e MYSQL_PASSWORD=phonebook -p 3306:3306 -d mysql:latest
-	@sleep 20
 
 docker-app-run:
 	@echo "Running Spring Boot application in Docker..."
@@ -88,12 +87,21 @@ db-migration:
 		echo "MySQL container is not running. Attempting to start..."; \
 		docker start mysql-container || (echo "Failed to start MySQL container. Please check the container logs." && exit 1); \
 	fi
-	@sleep 5 # Wait a few seconds for the MySQL service to start
-	@if ! docker exec mysql-container mysqladmin ping -u phonebook -pphonebook --silent; then \
-		echo "MySQL service is not responding. Please check the MySQL container." && exit 1; \
-	fi
+	@echo "Waiting for MySQL service to respond..."
+	@count=0; \
+	while ! docker exec mysql-container mysqladmin ping -u phonebook -pphonebook --silent >/dev/null 2>&1; do \
+		echo "MySQL service not responding. Retrying in 5 seconds... ($$count)"; \
+		sleep 5; \
+		count=$$((count + 1)); \
+		if [ $$count -ge 10 ]; then \
+			echo "MySQL service failed to respond after multiple attempts. Exiting."; \
+			exit 1; \
+		fi; \
+	done
 	@docker exec -i mysql-container mysql -u phonebook -pphonebook phonebook < sql_backup.sql
 	@echo "Database restored successfully!"
+
+
 
 docker-compose-start:
 	@docker-compose up
