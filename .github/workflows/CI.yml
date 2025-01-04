@@ -7,7 +7,7 @@ on:
 jobs:
   lint:
     name: Run lint scanning for Java code
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -47,7 +47,7 @@ jobs:
         run: ./spotbugs-bin/spotbugs-4.7.3/bin/spotbugs .
   hadolint:
     name: Run hadolint scanning for docker file
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
@@ -72,7 +72,7 @@ jobs:
   build:
     name: Docker Build and Push
     needs: [lint, hadolint]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     env:
       IMAGE_NAME: phonebook # Define the image name
     # strategy:
