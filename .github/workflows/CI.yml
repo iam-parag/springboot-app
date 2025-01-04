@@ -1,4 +1,4 @@
-name: Java Linting
+name: Phonebook-CI
 on:
   push:
     branches: [ CI-CD ]
@@ -6,6 +6,7 @@ on:
     branches: [ CI-CD ]
 jobs:
   lint:
+    name: Run lint scanning for Java code
     runs-on: ubuntu-latest
     steps:
       - name: Set up JDK
@@ -13,6 +14,11 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
+      - name: Install Checkstyle
+        run: |
+          curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
+          alias checkstyle='java -jar $(pwd)/checkstyle.jar'
+
       - name: Run Checkstyle
         run: |
-          checkstyle -c .checkstyle.xml  src/**/*.java
+          java -jar checkstyle.jar -c .checkstyle.xml src/**/*.java
