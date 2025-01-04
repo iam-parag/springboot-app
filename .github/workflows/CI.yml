@@ -5,7 +5,16 @@ on:
   pull_request:
     branches: [ CI-CD ]
 jobs:
-    lintr:
+  # lint:
+  #   name: Run lint scanning for Java code
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Set up JDK
+  #       uses: actions/setup-java@v2
+  #       with:
+  #         distribution: 'temurin'
+  #         java-version: '11'
+  lintr:
     name: Run lintr scanning
     runs-on: ubuntu-latest
     permissions:
@@ -36,15 +45,6 @@ jobs:
           sarif_file: lintr-results.sarif
           wait-for-processing: true
 
-  # lint:
-  #   name: Run lint scanning for Java code
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Set up JDK
-  #       uses: actions/setup-java@v2
-  #       with:
-  #         distribution: 'temurin'
-  #         java-version: '11'
       # - name: Install Checkstyle
       #   run: |
       #     curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
