@@ -1,9 +1,9 @@
 name: Java Linting
 on:
   push:
-    branches: [ master ]
+    branches: [ CI-CD ]
   pull_request:
-    branches: [ master ]
+    branches: [ CI-CD ]
 jobs:
   lint:
     runs-on: ubuntu-latest
