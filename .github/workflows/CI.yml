@@ -71,6 +71,7 @@ jobs:
           wait-for-processing: true
   build:
     name: Docker Build and Push
+    needs: [lint, hadolint]
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: phonebook # Define the image name
