@@ -38,10 +38,3 @@ jobs:
         platforms: linux/amd64,linux/arm64,linux/arm/v7
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME}}:latest
-    # # Build the Docker image
-    # - name: Build the Docker image
-    #   run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME}}:latest
-
-    # # Push the Docker image
-    # - name: Push the Docker image
-    #   run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME}}:latest
