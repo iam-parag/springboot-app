@@ -83,8 +83,26 @@ docker-app-run:
 
 db-migration:
 	@echo "Restoring database from backup..."
-	@docker ps -q -f name=mysql-container || docker start mysql-container
+	@if ! docker ps -q -f name=mysql-container >/dev/null; then \
+		echo "MySQL container is not running. Attempting to start..."; \
+		docker start mysql-container || (echo "Failed to start MySQL container. Please check the container logs." && exit 1); \
+	fi
+	@echo "Waiting for MySQL service to respond..."
+	@count=0; \
+	while ! docker exec mysql-container mysqladmin ping -u phonebook -pphonebook --silent >/dev/null 2>&1; do \
+		echo "MySQL service not responding. Retrying in 5 seconds... ($$count)"; \
+		sleep 5; \
+		count=$$((count + 1)); \
+		if [ $$count -ge 10 ]; then \
+			echo "MySQL service failed to respond after multiple attempts. Exiting."; \
+			exit 1; \
+		fi; \
+	done
 	@docker exec -i mysql-container mysql -u phonebook -pphonebook phonebook < sql_backup.sql
+	@echo "Database restored successfully!"
+
+
+
 docker-compose-start:
 	@docker-compose up
 
