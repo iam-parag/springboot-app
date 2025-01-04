@@ -43,8 +43,5 @@ jobs:
       - name: Grant Execute Permissions to SpotBugs
         run: chmod +x ./spotbugs-bin/spotbugs-4.7.3/bin/spotbugs
 
-      - name: List Compiled Files
-        run: ls -R out/
-        
       - name: Run SpotBugs
-        run: ./spotbugs-bin/spotbugs-4.7.3/bin/spotbugs out/
+        run: ./spotbugs-bin/spotbugs-4.7.3/bin/spotbugs .
