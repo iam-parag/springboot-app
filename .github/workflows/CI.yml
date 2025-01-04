@@ -6,22 +6,25 @@ on:
     branches: [ CI-CD ]
 jobs:
   lint:
-    name: Run lint scanning for Java code
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Debug Workspace
+        run: ls -R
+
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
           distribution: 'temurin'
           java-version: '11'
+
       - name: Install Checkstyle
         run: |
           curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
-          alias checkstyle='java -jar $(pwd)/checkstyle.jar'
+
       - name: Find and Lint Java Files
         run: |
           find src -name "*.java" > java_files.txt
           java -jar checkstyle.jar -c .checkstyle.xml $(cat java_files.txt)
-      - name: Run Checkstyle
-        run: |
-          java -jar checkstyle.jar -c .checkstyle.xml src/**/*.java
