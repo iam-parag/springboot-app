@@ -24,7 +24,12 @@ jobs:
         run: |
           curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
 
-      - name: Find and Lint Java Files
+      - name: Run Checkstyle
         run: |
-          find src -name "*.java" > java_files.txt
-          java -jar checkstyle.jar -c .checkstyle.xml $(cat java_files.txt)
+          java -jar checkstyle.jar -c .checkstyle.xml src/**/*.java
+      - name: Run PMD
+        run: |
+          ./pmd-bin/bin/run.sh pmd -d src -R ruleset.xml -f text
+      - name: Run SpotBugs
+        run: |
+          ./spotbugs-bin/spotbugs src/
