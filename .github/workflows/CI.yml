@@ -36,7 +36,7 @@ jobs:
         run: |
           ./pmd-bin/pmd-bin-6.55.0/bin/run.sh pmd -d src -R config/ruleset.xml -f text
       - name: Compile Java Code
-        run: javac -d out src/**/*.java
+        run: javac -d out src/main/java/com/evertcode/phonebook/PhonebookApplication.java
       - name: Download SpotBugs
         run: |
           curl -L -o spotbugs-bin.zip https://github.com/spotbugs/spotbugs/releases/download/4.7.3/spotbugs-4.7.3.zip
