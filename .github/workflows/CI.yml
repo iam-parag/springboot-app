@@ -11,44 +11,48 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+      
+      - name: Run make lint
+        run: make lint-test
+      
+      # - name: Debug Workspace
+      #   run: ls -R
 
-      - name: Debug Workspace
-        run: ls -R
+      # - name: Set up JDK
+      #   uses: actions/setup-java@v2
+      #   with:
+      #     distribution: 'temurin'
+      #     java-version: '11'
 
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '11'
+      # - name: Install Checkstyle
+      #   run: |
+      #     curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
 
-      - name: Install Checkstyle
-        run: |
-          curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
-
-      - name: Run Checkstyle
-        run: |
-          java -jar checkstyle.jar -c config/checkstyle.xml src/main/java/com/evertcode/phonebook/PhonebookApplication.java
-      - name: Download PMD
-        run: |
-          curl -L -o pmd-bin.zip https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip
-          unzip pmd-bin.zip -d pmd-bin
-      - name: Run PMD
-        run: |
-          ./pmd-bin/pmd-bin-6.55.0/bin/run.sh pmd -d src -R config/ruleset.xml -f text
-      - name: Download SpotBugs
-        run: |
-          curl -L -o spotbugs-bin.zip https://github.com/spotbugs/spotbugs/releases/download/4.7.3/spotbugs-4.7.3.zip
-          unzip spotbugs-bin.zip -d spotbugs-bin
+      # - name: Run Checkstyle
+      #   run: |
+      #     java -jar checkstyle.jar -c config/checkstyle.xml src/main/java/com/evertcode/phonebook/PhonebookApplication.java
+      # - name: Download PMD
+      #   run: |
+      #     curl -L -o pmd-bin.zip https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip
+      #     unzip pmd-bin.zip -d pmd-bin
+      # - name: Run PMD
+      #   run: |
+      #     ./pmd-bin/pmd-bin-6.55.0/bin/run.sh pmd -d src -R config/ruleset.xml -f text
+      # - name: Download SpotBugs
+      #   run: |
+      #     curl -L -o spotbugs-bin.zip https://github.com/spotbugs/spotbugs/releases/download/4.7.3/spotbugs-4.7.3.zip
+      #     unzip spotbugs-bin.zip -d spotbugs-bin
           
-      - name: Grant Execute Permissions to SpotBugs
-        run: chmod +x ./spotbugs-bin/spotbugs-4.7.3/bin/spotbugs
+      # - name: Grant Execute Permissions to SpotBugs
+      #   run: chmod +x ./spotbugs-bin/spotbugs-4.7.3/bin/spotbugs
 
-      - name: Run SpotBugs
-        run: |
-          export SPOTBUGS_OPTS="-Xmx2g"
-          ./spotbugs-bin/spotbugs-4.7.3/bin/spotbugs -textui -effort:max -low .
+      # - name: Run SpotBugs
+      #   run: |
+      #     export SPOTBUGS_OPTS="-Xmx2g"
+      #     ./spotbugs-bin/spotbugs-4.7.3/bin/spotbugs -textui -effort:max -low .
   hadolint:
     name: Run hadolint scanning for docker file
+    needs: [lint]
     runs-on: self-hosted
     permissions:
       contents: read # for actions/checkout to fetch code
@@ -73,7 +77,7 @@ jobs:
           wait-for-processing: true
   build:
     name: Docker Build and Push
-    needs: [lint, hadolint]
+    needs: [hadolint]
     runs-on: self-hosted
     env:
       IMAGE_NAME: phonebook # Define the image name
