@@ -44,7 +44,9 @@ jobs:
         run: chmod +x ./spotbugs-bin/spotbugs-4.7.3/bin/spotbugs
 
       - name: Run SpotBugs
-        run: ./spotbugs-bin/spotbugs-4.7.3/bin/spotbugs .
+        run: |
+          export SPOTBUGS_OPTS="-Xmx2g"
+          ./spotbugs-bin/spotbugs -textui -effort:max -low .
   hadolint:
     name: Run hadolint scanning for docker file
     runs-on: self-hosted
