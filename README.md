@@ -6,6 +6,8 @@
 >      export DB_NAME=phonebook
 >      export DB_USERNAME=your-username
 >      export DB_PASSWORD=your-password
+# Test lint
+  >     make lint-test
 # Manual application start on local
   >     mvn install
   >     java -jar target/phonebook-0.0.1-SNAPSHOT.jar

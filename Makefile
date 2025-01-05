@@ -68,6 +68,27 @@ clean:
 	@echo "Cleaning project..."
 	@mvn clean
 
+lint-checkstyle:
+	@echo "Running Checkstyle..."
+	curl -L -o checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.3/checkstyle-10.12.3-all.jar
+	@java -jar checkstyle.jar -c config/checkstyle.xml src/main/java/com/evertcode/phonebook/PhonebookApplication.java
+	@sudo rm -rf checkstyle.jar
+
+lint-pmd:
+	@echo "Running PMD..."
+	@curl -L -o pmd-bin.zip https://github.com/pmd/pmd/releases/download/pmd_releases/6.55.0/pmd-bin-6.55.0.zip && unzip pmd-bin.zip -d pmd-bin
+	@./pmd-bin/pmd-bin-6.55.0/bin/run.sh pmd -d src -R config/ruleset.xml -f text
+	@sudo rm -rf pmd-*
+
+lint-spotbugs:
+	@echo "Running SpotBugs..."
+	@curl -L -o spotbugs-bin.zip https://github.com/spotbugs/spotbugs/releases/download/4.7.3/spotbugs-4.7.3.zip && unzip spotbugs-bin.zip
+	@chmod +x spotbugs-4.7.3/bin/spotbugs
+	@./spotbugs-4.7.3/bin/spotbugs .
+	@sudo rm -rf spotbugs-*
+
+lint-test: lint-checkstyle lint-checkstyle lint-spotbugs
+
 # Docker tasks
 docker-app-build:
 	@echo "Building Docker image for the Spring Boot application..."
