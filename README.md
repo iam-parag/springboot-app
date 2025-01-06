@@ -20,8 +20,10 @@ Run docker image
 # Make the script executable For linux
   >     chmod +x setup-minikube.sh
 # Run the linux script:
+  >      cd k8s
   >     ./setup-minikube.sh
  # Make the script executable For windows
   >     Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 # Run the windows script:
+  >      cd k8s
   >     .\setup-minikube.ps1
