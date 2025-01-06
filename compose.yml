@@ -1,5 +1,5 @@
 services:
-  app:  
+  springboot-app:  
     container_name: spingboot-app
     image: springboot-app
     build: 
@@ -12,3 +12,10 @@ services:
       - DB_PORT=3306
       - DB_USERNAME=phonebook
       - DB_PASSWORD=your_password
+  nginx:  
+    container_name: nginx
+    image: nginx
+    ports:
+      - 8080:80
+    depends_on:
+      - springboot-app
