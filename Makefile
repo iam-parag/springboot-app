@@ -96,11 +96,13 @@ docker-app-build:
 
 docker-db-run:
 	@echo "Running MySQL Docker container..."
-	@docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=rootpassword -e MYSQL_DATABASE=phonebook -e MYSQL_USER=phonebook -e MYSQL_PASSWORD=phonebook -p 3306:3306 -d mysql:latest
+	@docker network create dbNetwork
+	@docker run --net=dbNetwork --name mysql-container -e MYSQL_ROOT_PASSWORD=rootpassword -e MYSQL_DATABASE=phonebook -e MYSQL_USER=phonebook -e MYSQL_PASSWORD=phonebook -d mysql:latest
 
 docker-app-run:
 	@echo "Running Spring Boot application in Docker..."
-	@docker run -p 8280:8280 -e DB_HOST=127.0.0.1 -e DB_PORT=3306 -e DB_NAME=phonebook -e DB_USERNAME=phonebook -e DB_PASSWORD=phonebook phonebook-app:v1
+	@docker network create appNetwork
+	@docker run --net=appNetwork -p 8280:8280 -e DB_HOST=mysql-container -e DB_PORT=3306 -e DB_NAME=phonebook -e DB_USERNAME=phonebook -e DB_PASSWORD=phonebook phonebook-app:v1
 
 db-migration:
 	@echo "Restoring database from backup..."
