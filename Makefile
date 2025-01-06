@@ -94,15 +94,18 @@ docker-app-build:
 	@echo "Building Docker image for the Spring Boot application..."
 	@docker build -t phonebook-app:v1 .
 
+docker-network-create:
+	@echo "Creating Docker Private Network..."
+	@docker network create privateNetwork
+
 docker-db-run:
 	@echo "Running MySQL Docker container..."
-	@docker network create dbNetwork
-	@docker run --net=dbNetwork --name mysql-container -e MYSQL_ROOT_PASSWORD=rootpassword -e MYSQL_DATABASE=phonebook -e MYSQL_USER=phonebook -e MYSQL_PASSWORD=phonebook -d mysql:latest
+	@docker run --net=privateNetwork --name mysql-container -e MYSQL_ROOT_PASSWORD=rootpassword -e MYSQL_DATABASE=phonebook -e MYSQL_USER=phonebook -e MYSQL_PASSWORD=phonebook -d mysql:latest
 
 docker-app-run:
 	@echo "Running Spring Boot application in Docker..."
 	@docker network create appNetwork
-	@docker run --net=appNetwork -p 8280:8280 -e DB_HOST=mysql-container -e DB_PORT=3306 -e DB_NAME=phonebook -e DB_USERNAME=phonebook -e DB_PASSWORD=phonebook phonebook-app:v1
+	@docker run --net=privateNetwork -p 8280:8280 -e DB_HOST=mysql-container -e DB_PORT=3306 -e DB_NAME=phonebook -e DB_USERNAME=phonebook -e DB_PASSWORD=phonebook phonebook-app:v1
 
 db-migration:
 	@echo "Restoring database from backup..."
@@ -129,7 +132,7 @@ db-migration:
 docker-compose-start:
 	@docker-compose up
 
-docker-app-start: docker-db-run db-migration docker-compose-start
+docker-app-start: docker-network-create docker-db-run db-migration docker-app-build docker-app-run
 
 # Clean temporary files
 clean-temp:
