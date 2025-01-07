@@ -1,3 +1,4 @@
+version: "3.8"
 services:
   db:  
     container_name: mysql-container
@@ -7,10 +8,14 @@ services:
       - MYSQL_DATABASE=phonebook 
       - MYSQL_USER=phonebook 
       - MYSQL_PASSWORD=phonebook
+    volumes:
+      - ./sql_backup.sql:/docker-entrypoint-initdb.d/sql_backup.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
     networks:
       - customnetwork
-    volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   springboot-app:  
     container_name: spingboot-app
     image: springboot-app
@@ -31,6 +36,8 @@ services:
     image: nginx
     ports:
       - 8080:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
     networks:
       - customnetwork
     depends_on:
@@ -38,4 +45,5 @@ services:
 
 networks:
   customnetwork:
+    name: customnetwork
     driver: bridge
