@@ -11,14 +11,33 @@ services:
     volumes:
       - ./sql_backup.sql:/docker-entrypoint-initdb.d/sql_backup.sql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "-h", "localhost","-uphonebook","-pphonebook","version"]
       interval: 10s
       retries: 5
     networks:
       - customnetwork
-  springboot-app:  
-    container_name: spingboot-app
+  springboot-app-1:  
+    container_name: spingboot-app-1
     image: springboot-app
+    ports:
+      - 8081:8280
+    build: 
+        context: .
+    environment:
+      - DB_NAME=phonebook
+      - DB_HOST=mysql-container
+      - DB_PORT=3306
+      - DB_USERNAME=phonebook
+      - DB_PASSWORD=phonebook
+    networks:
+      - customnetwork
+    depends_on:
+      - db
+  springboot-app-2:  
+    container_name: spingboot-app-2
+    image: springboot-app
+    ports:
+      - 8082:8280
     build: 
         context: .
     environment:
@@ -41,7 +60,9 @@ services:
     networks:
       - customnetwork
     depends_on:
-      - springboot-app
+      - db
+      - springboot-app-1
+      - springboot-app-2
 
 networks:
   customnetwork:
