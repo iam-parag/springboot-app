@@ -20,12 +20,12 @@ Run docker image
 # Run app using Docker Compose
   >     make docker-compose-start
 # Make the script executable For linux
-  >     cd k8s
+  >     cd k8s/setup
   >     chmod +x setup-minikube.sh
 # Run the linux script:
   >     ./setup-minikube.sh
  # Make the script executable For windows
-  >     cd k8s
+  >     cd k8s/setup
   >     Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 # Run the windows script:
   >     .\setup-minikube.ps1
