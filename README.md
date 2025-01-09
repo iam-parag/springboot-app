@@ -17,6 +17,8 @@
   >     docker buildx build -t phonebook-app:v1 .
 Run docker image
   >     docker run -p 8280:8280 -e DB_HOST=Host_IP -e DB_PORT=Port -e DB_NAME=Database_Name -e DB_USERNAME=Username -e DB_PASSWORD=password phonebook-app:v1
+# Run app using Docker Compose
+  >     make docker-compose-start
 # Make the script executable For linux
   >     cd k8s
   >     chmod +x setup-minikube.sh
