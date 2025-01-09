@@ -130,6 +130,8 @@ db-migration:
 
 
 docker-compose-start:
+	@chmod +x envfornginx.sh
+	@./envfornginx.sh
 	@docker-compose up
 
 docker-app-start: docker-network-create docker-db-run db-migration docker-app-build docker-app-run
