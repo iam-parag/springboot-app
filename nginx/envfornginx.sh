@@ -18,4 +18,4 @@ echo "Detected Private IP: $SERVER_PRIVATE_IP"
 export SERVER_PRIVATE_IP
 
 # Replace the variable in the Nginx configuration template
-envsubst < nginx/nginx.template.conf > nginx.conf
+envsubst '${SERVER_PRIVATE_IP}' < nginx/nginx.template.conf > nginx.conf
