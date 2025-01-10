@@ -42,6 +42,29 @@ spec:
       labels:
         app: application
     spec:
+      volumes:
+        - name: sql-file-volume
+          configMap:
+            name: sql-file
+      initContainers:
+        - name: db-migration
+          image: mysql:latest
+          env:
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: application-secret
+                  key: DB_PASSWORD
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Starting data migration...";
+              mysql -h mysql-service -uphonebook -p$DB_PASSWORD < /mnt/sql/sql_backup.sql;
+              echo "Data migration completed.";
+          volumeMounts:
+            - name: sql-file-volume
+              mountPath: /mnt/sql/sql_backup.sql
+              subPath: sql_backup.sql
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
