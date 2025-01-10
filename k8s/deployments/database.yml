@@ -39,7 +39,6 @@ spec:
       app: mysql
   template:
     metadata:
-      creationTimestamp: null
       labels:
         app: mysql
     spec:
