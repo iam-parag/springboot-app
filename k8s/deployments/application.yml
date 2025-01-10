@@ -42,6 +42,15 @@ spec:
       labels:
         app: application
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: type
+                operator: In
+                values:
+                - application
       containers:
       - image: parag52/phonebook
         name: application
