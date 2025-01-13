@@ -9,7 +9,7 @@ Write-Host "Minikube installed successfully."
 
 # Start Minikube with 4 nodes in a multi-node cluster
 Write-Host "Starting Minikube with 4 nodes..."
-minikube start --nodes 4 -p multinode-k8s
+.\minikube.exe start --nodes 4 -p multinode-k8s
 
 # Label nodes with specific roles and types
 Write-Host "Labelling nodes..."
