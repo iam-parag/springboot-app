@@ -13,8 +13,7 @@ echo "Minikube installed successfully."
 # Start Minikube with 4 nodes in a multi-node cluster
 echo "Starting Minikube with 4 nodes..."
 minikube start --nodes 4 -p multinode-k8s
-#Set alias
-alias kubectl='minikube kubectl -p multinode-k8s'
+
 # Label nodes with specific roles and types
 echo "Labelling nodes..."
 kubectl label node multinode-k8s-m02 multinode-k8s-m03 multinode-k8s-m04 node-role.kubernetes.io/worker=worker
