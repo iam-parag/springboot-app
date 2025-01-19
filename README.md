@@ -39,3 +39,16 @@ Run docker image
 
 # Run app using Kubernetes
   >     make k8s-deployment
+> 
+# Run app using helm
+  >     kubectl create ns vault
+  >     helm install vault vault
+  >     kubectl create ns external-secrets
+  >     helm install external-secrets external-secrets
+ Check vault and external-secrets all pod are running
+  >     kubectl create ns phonebook-api-ns
+  >     helm install secretstore secretstore
+  >     helm install mysql mysql
+  >     kubectl create configmap sql-file --from-file=../sql_backup.sql -n phonebook-api-ns
+  >     helm install phonebook phonebook
+ 
