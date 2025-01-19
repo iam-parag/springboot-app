@@ -161,8 +161,8 @@ install-external-secrets:
 
 deploy-secrets-store:
 	@kubectl create ns phonebook-api-ns
-	@kubectl apply -f k8s/deployments/secrectstore/secretstore.yaml
-	@kubectl apply -f k8s/deployments/secrectstore/externersecrect.yaml
+	@kubectl apply -f k8s/deployments/secretstore/secretstore.yaml
+	@kubectl apply -f k8s/deployments/secretstore/externersecrect.yaml
 k8s-app-deploy:
 	@kubectl apply -f k8s/deployments/phonebook-app/database.yaml
 	@kubectl create configmap sql-file --from-file=sql_backup.sql -n phonebook-api-ns

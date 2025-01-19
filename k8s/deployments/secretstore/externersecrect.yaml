@@ -1,0 +1,22 @@
+apiVersion: external-secrets.io/v1beta1
+kind: ExternalSecret
+metadata:
+  name: vault-example
+  namespace: phonebook-api-ns
+spec:
+  refreshInterval: "15s"
+  secretStoreRef:
+    name: secretstore-vault-backend
+    kind: SecretStore
+  target:
+    name: phonebook-db-secret
+  data:
+  - secretKey: DB_PASSWORD
+    remoteRef:
+      key: db-secret
+      property: DB_PASSWORD
+  - secretKey: DB_ROOT_PASSWORD
+    remoteRef:
+      key: db-secret
+      property: DB_ROOT_PASSWORD
+      

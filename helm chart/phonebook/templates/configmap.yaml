@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Values.configMap.name }}
+  namespace: {{ template "phonebook.namespace" . }}
+data:
+  DB_NAME: {{ .Values.configMap.data.dbname }}
+  DB_USERNAME: {{ .Values.configMap.data.username }}
+  DB_HOST: {{ .Values.configMap.data.host }}

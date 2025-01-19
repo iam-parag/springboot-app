@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Values.configMap.name }}
+  namespace: {{ template "mysql.namespace" . }}
+data:
+  MYSQL_DATABASE: {{ .Values.configMap.data.dbname }}
+  MYSQL_USER: {{ .Values.configMap.data.username }}
