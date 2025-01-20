@@ -6,6 +6,9 @@ on:
   pull_request:
     paths:
       - 'src/**'
+env:
+  TIMESTAMP: $(date +%Y%m%d%H%M%S)
+
 jobs:
 
   # hadolint:
@@ -57,9 +60,9 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-    - name: Set timestamp variable
-      id: vars
-      run: echo "TIMESTAMP=$(date +%Y%m%d%H%M%S)" >> "$GITHUB_ENV"
+    # - name: Set timestamp variable
+    #   id: vars
+    #   run: echo "TIMESTAMP=$(date +%Y%m%d%H%M%S)" >> "$GITHUB_ENV"
     
 
  
@@ -84,7 +87,7 @@ jobs:
 
       - name: Update values.yaml
         run: |
-          sed -i 's|tag:.*|tag: ${{ steps.vars.outputs.TIMESTAMP }}|' helm_chart/phonebook/values.yaml
+          sed -i 's|tag:.*|tag: ${{ env.TIMESTAMP }}|' helm_chart/phonebook/values.yaml
 
       - name: Commit and push changes
         run: |
