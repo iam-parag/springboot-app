@@ -36,11 +36,11 @@ jobs:
   set-timestamp:
     runs-on: self-hosted
     outputs:
-      steps: ${{ steps.timestamp.outputs }}
+      timestamp: ${{ steps.set-timestamp.outputs.timestamp }}
     steps:
       - name: Set Timestamp
-        id: timestamp
-        run: echo "TIMESTAMP=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
+        id: set-timestamp
+        run: echo "::set-output name=timestamp::$(date +'%Y%m%d%H%M%S')"
   build:
     name: Docker Build and Push
     # needs: [hadolint]
@@ -92,7 +92,7 @@ jobs:
 
       - name: Update values.yaml
         run: |
-          sed -i 's|tag:.*|tag: $TIMESTAMP|' helm_chart/phonebook/values.yaml
+          sed -i 's|tag:.*|tag: '${{ env.TIMESTAMP }}'|' helm_chart/phonebook/values.yaml
 
       - name: Commit and push changes
         run: |
