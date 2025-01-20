@@ -91,7 +91,7 @@ jobs:
 
       - name: Update values.yaml
         run: |
-          sed -i 's|tag:.*|tag: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME}}:${{ env.TIMESTAMP }}|' helm_chart/phonebook/values.yaml
+          sed -i 's|tag:.*|tag:${{ env.TIMESTAMP }}|' helm_chart/phonebook/values.yaml
 
       - name: Commit and push changes
         run: |
