@@ -33,12 +33,18 @@ jobs:
   #       with:
   #         sarif_file: hadolint-results.sarif
   #         wait-for-processing: true
+  set-timestamp:
+    runs-on: self-hosted
+    outputs:
+      steps: ${{ steps.timestamp.outputs }}
+    steps:
+      - name: Set Timestamp
+        id: timestamp
+        run: echo "TIMESTAMP=$(date +"%Y%m%d%H%M%S")" >> $GITHUB_ENV
   build:
     name: Docker Build and Push
     # needs: [hadolint]
     runs-on: self-hosted
-    outputs:
-      steps: ${{ steps.timestamp.outputs }}
     env:
       IMAGE_NAME: phonebook # Define the image name
     # strategy:
@@ -59,9 +65,9 @@ jobs:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-    - name: Set timestamp variable
-      id: vars
-      run: echo "TIMESTAMP=$(date +%Y%m%d%H%M%S)" >> "$GITHUB_ENV"
+    # - name: Set timestamp variable
+    #   id: vars
+    #   run: echo "TIMESTAMP=$(date +%Y%m%d%H%M%S)" >> "$GITHUB_ENV"
     
 
  
@@ -74,11 +80,11 @@ jobs:
         file: Dockerfile
         #platforms: linux/amd64,linux/arm64,linux/arm/v7
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME}}:${{ env.TIMESTAMP }}
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME}}:$TIMESTAMP
   
   update-values:
     name: Update values.yaml with latest image
-    needs: [build]
+    needs: [build,set-timestamp]
     runs-on: self-hosted
     steps:
       - name: Checkout code
@@ -86,7 +92,7 @@ jobs:
 
       - name: Update values.yaml
         run: |
-          sed -i 's|tag:.*|tag: ${{ env.TIMESTAMP }}|' helm_chart/phonebook/values.yaml
+          sed -i 's|tag:.*|tag: $TIMESTAMP|' helm_chart/phonebook/values.yaml
 
       - name: Commit and push changes
         run: |
