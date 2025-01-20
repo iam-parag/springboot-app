@@ -65,6 +65,11 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_HUB_USERNAME }}
         password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    - name: Set timestamp variable
+      id: vars
+      run: echo "TIMESTAMP=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+ 
         
 # Build and push multi-platform Docker image
     - name: Build and push Docker image
@@ -74,4 +79,4 @@ jobs:
         file: Dockerfile
         #platforms: linux/amd64,linux/arm64,linux/arm/v7
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME}}:latest
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME}}:${{ env.TIMESTAMP }}
