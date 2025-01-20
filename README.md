@@ -41,7 +41,7 @@ Run docker image
   >     make k8s-deployment
 > 
 # Run app using helm
-  >     cd helm chart
+  >     cd helm_chart
   >     kubectl create ns vault
   >     helm install vault vault
   >     kubectl create ns external-secrets

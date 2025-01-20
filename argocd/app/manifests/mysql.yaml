@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mysql
+spec:
+  destination:
+    name: ''
+    namespace: phonebook-api-ns
+    server: https://kubernetes.default.svc
+  source:
+    path: helm_chart/mysql
+    repoURL: https://github.com/iam-parag/springboot-app.git
+    targetRevision: CI-CD
+    helm:
+      valueFiles:
+        - values.yaml
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions: []
