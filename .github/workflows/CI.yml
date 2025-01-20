@@ -7,7 +7,7 @@ on:
     paths:
       - 'src/**'
 env:
-  TIMESTAMP: $(date +%Y%m%d%H%M%S)
+  TIMESTAMP: "$(date +%Y%m%d%H%M%S)"
 
 jobs:
 
