@@ -10,3 +10,4 @@ class PhonebookApplicationTests {
 	void contextLoads() {
 	}	
 }
+
