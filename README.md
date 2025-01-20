@@ -53,3 +53,12 @@ Run docker image
   >     kubectl create configmap sql-file --from-file=../sql_backup.sql -n phonebook-api-ns
   >     helm install phonebook phonebook
  
+# Setup the ArgoCD Server in a Kubernetes cluster.
+  >     kubectl create ns argocd
+  >     kubectl apply -n argocd -f argocd/setup/manifests/install.yaml
+ For port forward to access UI
+  >     kubectl port-forward svc/argocd-server -n argocd 8080:443
+Getting admin secret
+  >     kubectl get secrets -n argocd argocd-initial-admin-secret -o yaml
+
+Then decode base64 the secret password filed to use that password argocd login and username is admin
