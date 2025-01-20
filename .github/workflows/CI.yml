@@ -80,3 +80,23 @@ jobs:
         #platforms: linux/amd64,linux/arm64,linux/arm/v7
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME}}:${{ env.TIMESTAMP }}
+  
+  update-values:
+    name: Update values.yaml with latest image
+    needs: [build]
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Update values.yaml
+        run: |
+          sed -i 's|tag:.*|tag: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ env.IMAGE_NAME}}:${{ env.TIMESTAMP }}|' helm_chart/phonebook/values.yaml
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add helm_chart/phonebook/values.yaml
+          git commit -m 'Update values.yaml with latest image tag'
+          git push
