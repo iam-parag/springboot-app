@@ -44,9 +44,11 @@ jobs:
   build:
     name: Docker Build and Push
     # needs: [hadolint]
+    needs: [set-timestamp]
     runs-on: self-hosted
     env:
       IMAGE_NAME: phonebook # Define the image name
+      TIMESTAMP: ${{ needs.set-timestamp.outputs.timestamp }}
     # strategy:
     #   matrix:
     #     environment: [dev, staging, production] # Define your environments
@@ -86,6 +88,8 @@ jobs:
     name: Update values.yaml with latest image
     needs: [build,set-timestamp]
     runs-on: self-hosted
+    env:
+      TIMESTAMP: ${{ needs.set-timestamp.outputs.timestamp }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
