@@ -51,8 +51,7 @@ jobs:
         run: echo "::set-output name=timestamp::$(date +'%Y%m%d%H%M%S')"
   build:
     name: Docker Build and Push
-    # needs: [hadolint]
-    needs: [set-timestamp]
+    needs: [hadolint,set-timestamp]
     runs-on: self-hosted
     env:
       IMAGE_NAME: phonebook # Define the image name
