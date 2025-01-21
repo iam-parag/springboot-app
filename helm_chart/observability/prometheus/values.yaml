@@ -268,7 +268,7 @@ server:
   global:
     ## How frequently to scrape targets by default
     ##
-    scrape_interval: 15s
+    scrape_interval: 1m
     ## How long until a scrape request times out
     ##
     scrape_timeout: 10s
@@ -794,7 +794,6 @@ serverFiles:
 
   prometheus.yml:
     rule_files:
-      - "prometheus.rules"
       - /etc/config/recording_rules.yml
       - /etc/config/alerting_rules.yml
     ## Below two files are DEPRECATED will be removed from this default values file
