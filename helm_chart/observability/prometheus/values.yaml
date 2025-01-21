@@ -505,7 +505,7 @@ server:
 
     ## Prometheus server data Persistent Volume mount root path
     ##
-    mountPath: /tmp
+    mountPath: /home
 
     ## Prometheus server data Persistent Volume size
     ##
