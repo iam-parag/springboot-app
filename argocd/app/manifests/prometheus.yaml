@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+spec:
+  destination:
+    name: ''
+    namespace: observability
+    server: https://kubernetes.default.svc
+  source:
+    path: helm_chart/observability/prometheus
+    repoURL: https://github.com/iam-parag/springboot-app.git
+    targetRevision: CI-CD
+  sources: []
+  project: default
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+      - CreateNamespace=true
