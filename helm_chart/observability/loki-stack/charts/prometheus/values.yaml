@@ -1044,7 +1044,11 @@ extraScrapeConfigs: |
         target_label: instance
       - target_label: __address__
         replacement: loki-stack-prometheus-blackbox-exporter:9115
-
+  - job_name: 'mysqld_exporter'
+   scrape_interval: 15s
+   static_configs:
+    - targets: 
+        - http://mysql:9104    
 # Adds option to add alert_relabel_configs to avoid duplicate alerts in alertmanager
 # useful in H/A prometheus with different external labels but the same alerts
 alertRelabelConfigs: {}
