@@ -169,7 +169,7 @@ collectors: {}
 
 # mysql connection params which build the my.cnf config
 mysql:
-  db: ""
+  db: "phonebook"
   host: "mysql-service.phonebook-api-ns.cluster.local"
   # config my.cnf https://dev.mysql.com/doc/c-api/8.0/en/mysql-options.html
   additionalConfig:
