@@ -143,7 +143,8 @@ client: {}
   # name:
 
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
-nodeSelector: {}
+nodeSelector:
+  type: dependent_services
 
 ## ref: https://kubernetes.io/docs/concepts/storage/persistent-volumes/
 ## If you set enabled as "True", you need :

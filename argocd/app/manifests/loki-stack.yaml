@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: prometheus
+  name: loki-stack
 spec:
   destination:
     name: ''
     namespace: observability
     server: https://kubernetes.default.svc
   source:
-    path: helm_chart/observability/prometheus
+    path: helm_chart/observability/loki-stack
     repoURL: https://github.com/iam-parag/springboot-app.git
     targetRevision: CI-CD
   sources: []
