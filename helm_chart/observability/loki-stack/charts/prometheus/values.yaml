@@ -1036,7 +1036,7 @@ extraScrapeConfigs: |
       module: [http_2xx]
     static_configs:
       - targets:
-        - https://example.com
+        - http://prometheus-blackbox-exporter:9115
     relabel_configs:
       - source_labels: [__address__]
         target_label: __param_target
