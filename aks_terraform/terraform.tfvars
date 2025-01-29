@@ -1,0 +1,13 @@
+region              = "eastus"
+project             = "phonebook"
+environment         = "dev"
+createdby           = "parag"
+owner               = "parag"
+management          = "terraform"
+resource_group_name = "aks"
+aks_name            = "demo_aks_cluster"
+aks_dns_prefix      = "demo"
+aks_vm_size         = "Standard_D2_v2"
+aks_node_pool_name  = "internal"
+aks_default_node_pool_node_count = 1
+aks_extra_node_pool_node_count = 1
