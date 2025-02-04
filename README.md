@@ -52,6 +52,9 @@ Run docker image
   >     helm install mysql mysql
   >     kubectl create configmap sql-file --from-file=../sql_backup.sql -n phonebook-api-ns
   >     helm install phonebook phonebook
+Deploy observability stack 
+  >     kubectl create ns observability
+  >     helm install loki-stack loki-stack
  
 # Setup the ArgoCD Server in a Kubernetes cluster.
   >     kubectl create ns argocd
